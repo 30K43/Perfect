@@ -15,14 +15,14 @@
                                 <input type="text" name="scName"/>
                             </li>
                             <li>
-                                <p>是否是重点学校：</p>
+                                <p>是否重点：</p>
                                 <select name="scPoint" th:with="type=${@dict.getType('sc_point')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
-                                <p>是否是公立学校：</p>
+                                <p>是否公立：</p>
                                 <select name="scIspublic" th:with="type=${@dict.getType('sc_isPublic')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
@@ -83,7 +83,7 @@
                 },
                     {
                         field : 'scId',
-                        title : '序号',
+                        title : '学校编号',
 
                     },
                 {
@@ -96,7 +96,7 @@
                 },
                 {
                     field : 'scPoint', 
-                    title : '是否是重点学校',
+                    title : '是否重点',
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(scPointDatas, value);
                     }
@@ -111,7 +111,7 @@
                 },
                 {
                     field : 'scIspublic', 
-                    title : '是否是公立学校',
+                    title : '是否公立',
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(scIspublicDatas, value);
                     }

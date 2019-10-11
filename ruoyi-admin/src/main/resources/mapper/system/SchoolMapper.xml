@@ -21,12 +21,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectSchoolList" parameterType="School" resultMap="SchoolResult">
         <include refid="selectSchoolVo"/>
+        where sc_delFlag != '0'
         <where>  
             <if test="scName != null  and scName != ''"> and sc_name like concat('%', #{scName}, '%')</if>
             <if test="scPoint != null "> and sc_point = #{scPoint}</if>
             <if test="scIspublic != null "> and sc_isPublic = #{scIspublic}</if>
-
         </where>
+
     </select>
     
     <select id="selectSchoolById" parameterType="Long" resultMap="SchoolResult">
