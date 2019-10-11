@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('学校信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>学校名称：</p>
+                                <input type="text" name="scName"/>
+                            </li>
+                            <li>
+                                <p>是否是重点学校：</p>
+                                <select name="scPoint" th:with="type=${@dict.getType('sc_point')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>是否是公立学校：</p>
+                                <select name="scIspublic" th:with="type=${@dict.getType('sc_isPublic')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:school:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:school:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:school:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:school:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:school:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:school:remove')}]];
+        var scPointDatas = [[${@dict.getType('sc_point')}]];
+        var scDelflagDatas = [[${@dict.getType('sc_delFlag')}]];
+        var scIspublicDatas = [[${@dict.getType('sc_isPublic')}]];
+        var prefix = ctx + "system/school";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "学校信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'scId', 
+                    title : '学校ID',
+                    visible: false
+                },
+                    {
+                        field : 'scId',
+                        title : '序号',
+
+                    },
+                {
+                    field : 'scName', 
+                    title : '学校名称'
+                },
+                {
+                    field : 'scLoation', 
+                    title : '学校位置'
+                },
+                {
+                    field : 'scPoint', 
+                    title : '是否是重点学校',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(scPointDatas, value);
+                    }
+                },
+                {
+                    field : 'scMaster', 
+                    title : '校长'
+                },
+                {
+                    field : 'scCreateby', 
+                    title : '更新者'
+                },
+                {
+                    field : 'scIspublic', 
+                    title : '是否是公立学校',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(scIspublicDatas, value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.scId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.scId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
