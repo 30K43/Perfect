@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SchoolMapper">
+    
+    <resultMap type="School" id="SchoolResult">
+        <result property="schoolId"    column="school_id"    />
+        <result property="schoolName"    column="school_name"    />
+        <result property="scWhat"    column="sc_what"    />
+        <result property="scDelflag"    column="sc_delflag"    />
+        <result property="scOwer"    column="sc_ower"    />
+        <result property="scWhere"    column="sc_where"    />
+        <result property="scIfgood"    column="sc_ifgood"    />
+    </resultMap>
+
+    <sql id="selectSchoolVo">
+        select school_id, school_name, sc_what, sc_delflag, sc_ower, sc_where, sc_ifgood from school
+    </sql>
+
+    <select id="selectSchoolList" parameterType="School" resultMap="SchoolResult">
+        <include refid="selectSchoolVo"/>
+        <where>  
+            <if test="schoolName != null  and schoolName != ''"> and school_name like concat('%', #{schoolName}, '%')</if>
+            <if test="scWhat != null  and scWhat != ''"> and sc_what = #{scWhat}</if>
+            <if test="scWhere != null  and scWhere != ''"> and sc_where like concat('%', #{scWhere}, '%')</if>
+            <if test="scIfgood != null  and scIfgood != ''"> and sc_ifgood = #{scIfgood}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolById" parameterType="String" resultMap="SchoolResult">
+        <include refid="selectSchoolVo"/>
+        where school_id = #{schoolId}
+    </select>
+        
+    <insert id="insertSchool" parameterType="School">
+        insert into school
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null  and schoolId != ''">school_id,</if>
+            <if test="schoolName != null  and schoolName != ''">school_name,</if>
+            <if test="scWhat != null  and scWhat != ''">sc_what,</if>
+            <if test="scDelflag != null  and scDelflag != ''">sc_delflag,</if>
+            <if test="scOwer != null  and scOwer != ''">sc_ower,</if>
+            <if test="scWhere != null  and scWhere != ''">sc_where,</if>
+            <if test="scIfgood != null  and scIfgood != ''">sc_ifgood,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null  and schoolId != ''">#{schoolId},</if>
+            <if test="schoolName != null  and schoolName != ''">#{schoolName},</if>
+            <if test="scWhat != null  and scWhat != ''">#{scWhat},</if>
+            <if test="scDelflag != null  and scDelflag != ''">#{scDelflag},</if>
+            <if test="scOwer != null  and scOwer != ''">#{scOwer},</if>
+            <if test="scWhere != null  and scWhere != ''">#{scWhere},</if>
+            <if test="scIfgood != null  and scIfgood != ''">#{scIfgood},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchool" parameterType="School">
+        update school
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="schoolName != null  and schoolName != ''">school_name = #{schoolName},</if>
+            <if test="scWhat != null  and scWhat != ''">sc_what = #{scWhat},</if>
+            <if test="scDelflag != null  and scDelflag != ''">sc_delflag = #{scDelflag},</if>
+            <if test="scOwer != null  and scOwer != ''">sc_ower = #{scOwer},</if>
+            <if test="scWhere != null  and scWhere != ''">sc_where = #{scWhere},</if>
+            <if test="scIfgood != null  and scIfgood != ''">sc_ifgood = #{scIfgood},</if>
+        </trim>
+        where school_id = #{schoolId}
+    </update>
+
+    <delete id="deleteSchoolById" parameterType="String">
+        delete from school where school_id = #{schoolId}
+    </delete>
+
+    <delete id="deleteSchoolByIds" parameterType="String">
+        delete from school where school_id in 
+        <foreach item="schoolId" collection="array" open="(" separator="," close=")">
+            #{schoolId}
+        </foreach>
+    </delete>
+    
+</mapper>
