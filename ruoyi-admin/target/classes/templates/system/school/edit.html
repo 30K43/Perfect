@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改学校信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-school-edit" th:object="${school}">
+            <input name="scId" th:field="*{scId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学校名称：</label>
+                <div class="col-sm-8">
+                    <input name="scName" th:field="*{scName}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学校位置：</label>
+                <div class="col-sm-8">
+                    <input name="scLoation" th:field="*{scLoation}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否是重点学校：</label>
+                <div class="col-sm-8">
+                    <select name="scPoint" class="form-control m-b" th:with="type=${@dict.getType('sc_point')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{scPoint}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">校长：</label>
+                <div class="col-sm-8">
+                    <input name="scMaster" th:field="*{scMaster}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否是公立学校(0 是，1否)：</label>
+                <div class="col-sm-8">
+                    <select name="scIspublic" class="form-control m-b" th:with="type=${@dict.getType('sc_isPublic')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{scIspublic}"></option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/school";
+        $("#form-school-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-school-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>
