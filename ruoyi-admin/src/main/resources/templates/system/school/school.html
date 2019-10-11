@@ -60,6 +60,8 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:school:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:school:remove')}]];
+        //详情
+        // var scDetailFlag = [[${@permission.hasPermi('system:school:scDetail')}]];
         var scPointDatas = [[${@dict.getType('sc_point')}]];
         var scDelflagDatas = [[${@dict.getType('sc_delFlag')}]];
         var scIspublicDatas = [[${@dict.getType('sc_isPublic')}]];
@@ -123,6 +125,7 @@
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.scId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.scId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        // actions.push('<a class="btn btn-danger btn-xs ' + scDetailFlag + '" href="javascript:void(0)" onclick="$.operate.scDetail(\'' + row.scId + '\')"><i class="fa fa-search"></i>详情</a>');
                         return actions.join('');
                     }
                 }]

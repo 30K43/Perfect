@@ -16,17 +16,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSchoolVo">
-        select sc_Id, sc_name, sc_loation, sc_point, sc_master, sc_createBy, sc_delFlag, sc_isPublic from school
+       select sc_Id, sc_name, sc_loation, sc_point, sc_master, sc_createBy, sc_delFlag, sc_isPublic from school
     </sql>
+
 
     <select id="selectSchoolList" parameterType="School" resultMap="SchoolResult">
         <include refid="selectSchoolVo"/>
-        where sc_delFlag != '0'
-        <where>  
+        where  sc_delFlag !='0'
+
             <if test="scName != null  and scName != ''"> and sc_name like concat('%', #{scName}, '%')</if>
             <if test="scPoint != null "> and sc_point = #{scPoint}</if>
             <if test="scIspublic != null "> and sc_isPublic = #{scIspublic}</if>
-        </where>
 
     </select>
     
