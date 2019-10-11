@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SchoolMapper">
-
+    
     <resultMap type="School" id="SchoolResult">
-        <result property="scId" column="sc_Id"/>
-        <result property="scName" column="sc_name"/>
-        <result property="scLoation" column="sc_loation"/>
-        <result property="scPoint" column="sc_point"/>
-        <result property="scMaster" column="sc_master"/>
-        <result property="scCreateby" column="sc_createBy"/>
-        <result property="scDelflag" column="sc_delFlag"/>
-        <result property="scIspublic" column="sc_isPublic"/>
+        <result property="scId"    column="sc_Id"    />
+        <result property="scName"    column="sc_name"    />
+        <result property="scLoation"    column="sc_loation"    />
+        <result property="scPoint"    column="sc_point"    />
+        <result property="scMaster"    column="sc_master"    />
+        <result property="scCreateby"    column="sc_createBy"    />
+        <result property="scDelflag"    column="sc_delFlag"    />
+        <result property="scIspublic"    column="sc_isPublic"    />
     </resultMap>
 
     <sql id="selectSchoolVo">
@@ -21,19 +21,19 @@
 
     <select id="selectSchoolList" parameterType="School" resultMap="SchoolResult">
         <include refid="selectSchoolVo"/>
-        <where>
-            <if test="scName != null  and scName != ''">and sc_name like concat('%', #{scName}, '%')</if>
-            <if test="scPoint != null ">and sc_point = #{scPoint}</if>
-            <if test="scIspublic != null ">and sc_isPublic = #{scIspublic}</if>
+        <where>  
+            <if test="scName != null  and scName != ''"> and sc_name like concat('%', #{scName}, '%')</if>
+            <if test="scPoint != null "> and sc_point = #{scPoint}</if>
+            <if test="scIspublic != null "> and sc_isPublic = #{scIspublic}</if>
 
         </where>
     </select>
-
+    
     <select id="selectSchoolById" parameterType="Long" resultMap="SchoolResult">
         <include refid="selectSchoolVo"/>
         where sc_Id = #{scId}
     </select>
-
+        
     <insert id="insertSchool" parameterType="School" useGeneratedKeys="true" keyProperty="scId">
         insert into school
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -44,7 +44,7 @@
             <if test="scCreateby != null  and scCreateby != ''">sc_createBy,</if>
             <if test="scDelflag != null ">sc_delFlag,</if>
             <if test="scIspublic != null ">sc_isPublic,</if>
-        </trim>
+         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="scName != null  and scName != ''">#{scName},</if>
             <if test="scLoation != null  and scLoation != ''">#{scLoation},</if>
@@ -53,7 +53,7 @@
             <if test="scCreateby != null  and scCreateby != ''">#{scCreateby},</if>
             <if test="scDelflag != null ">#{scDelflag},</if>
             <if test="scIspublic != null ">#{scIspublic},</if>
-        </trim>
+         </trim>
     </insert>
 
     <update id="updateSchool" parameterType="School">
@@ -69,19 +69,16 @@
         </trim>
         where sc_Id = #{scId}
     </update>
-    <!--根据ID逻辑删除 -->
+<!--逻辑删除-->
     <delete id="deleteSchoolById" parameterType="Long">
-        update school set sc_delFlag = '0' where sc_Id = #{scId}
+          update school set sc_delFlag= '0'  where sc_Id = #{scId}
     </delete>
-
-    <!-- 根据ID 批量删除 逻辑删除-->
+ <!--逻辑批量删除-->
     <delete id="deleteSchoolByIds" parameterType="String">
-
-        update school set sc_delFlag = '0' where sc_Id in
+        update school set sc_delFlag= '0' where sc_Id in
         <foreach item="scId" collection="array" open="(" separator="," close=")">
             #{scId}
         </foreach>
     </delete>
-
-
+    
 </mapper>
