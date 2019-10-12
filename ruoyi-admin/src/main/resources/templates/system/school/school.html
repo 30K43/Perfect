@@ -63,9 +63,13 @@
         //详情
         // var scDetailFlag = [[${@permission.hasPermi('system:school:scDetail')}]];
         var scPointDatas = [[${@dict.getType('sc_point')}]];
-        var scDelflagDatas = [[${@dict.getType('sc_delFlag')}]];
         var scIspublicDatas = [[${@dict.getType('sc_isPublic')}]];
         var prefix = ctx + "system/school";
+        //校长简介的方法
+        function details() {
+            var url = prefix + '/add/' ;
+            $.modal.openTab("校长简介", url);
+        }
 
         $(function() {
             var options = {
@@ -89,7 +93,7 @@
 
                     },
                 {
-                    field : 'scName', 
+                    field : 'scName',
                     title : '学校名称'
                 },
                 {
@@ -105,7 +109,12 @@
                 },
                 {
                     field : 'scMaster', 
-                    title : '校长'
+                    title : '校长',
+                    formatter: function(value, row, index) {
+                        return '<a href="javascript:void(0)" onclick="details()">'+value+'</a>'
+                        // return '<a href="../master.html" >'+value+'</a>'
+                    }
+
                 },
                 {
                     field : 'scCreateby', 
