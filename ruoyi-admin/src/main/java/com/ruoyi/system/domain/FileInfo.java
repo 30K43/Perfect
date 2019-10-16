@@ -21,6 +21,16 @@ public class FileInfo extends BaseEntity
     /** 文件名称 */
     @Excel(name = "文件名称")
     private String fileName;
+    /*删除标志 0 已删除，1 未删除*/
+    private Integer delFlag;
+
+    public Integer getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
+    }
 
     /** 文件路径 */
     @Excel(name = "文件路径")
@@ -60,6 +70,7 @@ public class FileInfo extends BaseEntity
             .append("fileId", getFileId())
             .append("fileName", getFileName())
             .append("filePath", getFilePath())
+            .append("delFlag", getDelFlag())
             .toString();
     }
 }
