@@ -11,7 +11,7 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>文件名称：</p>
+                                <p>员工姓名：</p>
                                 <input type="text" name="fileName"/>
                             </li>
                             <li>
@@ -70,12 +70,20 @@
                 },
                 {
                     field : 'fileName', 
-                    title : '文件名称'
+                    title : '员工姓名'
                 },
+                    {
+                        field : 'filePath',
+                        title: '员工头像',
+                        formatter: function(value, row, index) {
+                            return $.table.imageView(value);
+                        }
+                    },
                 {
                     field : 'filePath', 
                     title : '文件路径'
                 },
+
                 {
                     title: '操作',
                     align: 'center',
