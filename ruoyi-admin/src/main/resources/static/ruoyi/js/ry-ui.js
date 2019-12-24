@@ -356,7 +356,8 @@
             },
             // 刷新表格
             refresh: function() {
-            	$.btTable.bootstrapTable('refresh', {
+				alert(1111111)
+				$.btTable.bootstrapTable('refresh', {
                     silent: true
                 });
             },

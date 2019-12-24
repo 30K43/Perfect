@@ -19,7 +19,7 @@ public class RuoYiApplication
         good();
     }
     public static void  good(){
-        System.out.println("(♥◠‿◠)ﾉﾞ  昊择工作室/平台启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
+        System.out.println("(♥◠‿◠)ﾉﾞ  美女一枚/平台启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 "                         .::::.                                             \n" +
                 "                      .::::::::.   \n" +
                 "                     :::::::::::     \n" +

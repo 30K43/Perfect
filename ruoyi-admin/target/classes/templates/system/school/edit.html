@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">是否是重点学校：</label>
+                <label class="col-sm-3 control-label">是否重点：</label>
                 <div class="col-sm-8">
                     <select name="scPoint" class="form-control m-b" th:with="type=${@dict.getType('sc_point')}" required>
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{scPoint}"></option>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">是否是公立学校(0 是，1否)：</label>
+                <label class="col-sm-3 control-label">是否公立：</label>
                 <div class="col-sm-8">
                     <select name="scIspublic" class="form-control m-b" th:with="type=${@dict.getType('sc_isPublic')}" required>
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{scIspublic}"></option>

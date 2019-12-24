@@ -15,14 +15,14 @@
                                 <input type="text" name="scName"/>
                             </li>
                             <li>
-                                <p>是否是重点学校：</p>
+                                <p>是否重点：</p>
                                 <select name="scPoint" th:with="type=${@dict.getType('sc_point')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
-                                <p>是否是公立学校：</p>
+                                <p>是否公立：</p>
                                 <select name="scIspublic" th:with="type=${@dict.getType('sc_isPublic')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
@@ -50,6 +50,9 @@
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:school:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
+                <a class="btn btn-warning" onclick="$.table.refresh()" shiro:hasPermission="system:school:export">
+                    <i class="fa fa-download"></i> 刷新
+                 </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -60,11 +63,20 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:school:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:school:remove')}]];
+        //详情
+        // var scDetailFlag = [[${@permission.hasPermi('system:school:scDetail')}]];
         var scPointDatas = [[${@dict.getType('sc_point')}]];
-        var scDelflagDatas = [[${@dict.getType('sc_delFlag')}]];
         var scIspublicDatas = [[${@dict.getType('sc_isPublic')}]];
         var prefix = ctx + "system/school";
+        //校长简介的方法
+        function details() {
+            var url = prefix + '/add/' ;
+            $.modal.openTab("校长简介", url);
+        }
+        function refresh1(){
 
+
+        }
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -83,11 +95,11 @@
                 },
                     {
                         field : 'scId',
-                        title : '序号',
+                        title : '学校编号',
 
                     },
                 {
-                    field : 'scName', 
+                    field : 'scName',
                     title : '学校名称'
                 },
                 {
@@ -96,14 +108,19 @@
                 },
                 {
                     field : 'scPoint', 
-                    title : '是否是重点学校',
+                    title : '是否重点',
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(scPointDatas, value);
                     }
                 },
                 {
                     field : 'scMaster', 
-                    title : '校长'
+                    title : '校长',
+                    formatter: function(value, row, index) {
+                        return '<a href="javascript:void(0)" onclick="details()">'+value+'</a>'
+                        // return '<a href="../master.html" >'+value+'</a>'
+                    }
+
                 },
                 {
                     field : 'scCreateby', 
@@ -111,7 +128,7 @@
                 },
                 {
                     field : 'scIspublic', 
-                    title : '是否是公立学校',
+                    title : '是否公立',
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(scIspublicDatas, value);
                     }
@@ -123,6 +140,7 @@
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.scId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.scId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        // actions.push('<a class="btn btn-danger btn-xs ' + scDetailFlag + '" href="javascript:void(0)" onclick="$.operate.scDetail(\'' + row.scId + '\')"><i class="fa fa-search"></i>详情</a>');
                         return actions.join('');
                     }
                 }]
